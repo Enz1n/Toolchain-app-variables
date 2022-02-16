@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: holawebhook
+  namespace: default
+  labels:
+     app: holawebhook
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: holawebhook
+  template:
+    metadata:
+      labels:
+        app: holawebhook
+    spec:
+      containers:
+      - name: holawebhook
+        image: us.icr.io/enzo-test/enzo
+        ports:
+          - containerPort: 8080
+        env:
+          - name: NOMBRE
+            valueFrom:
+              secretKeyRef:
+                name: webhookenv
+                key: NOMBRE
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: holawebhookservice
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app: holawebhook
+  ports:
+    - port: 8080
+      targetPort: 8080
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+    name: holawebhookroute
+    namespace: default
+spec:
+    to:
+        kind: Service
+        name: holawebhookservice
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: webhookenv
+  namespace: default
+stringData:
+    NOMBRE: $(body.nombre)
+type: Opaque
