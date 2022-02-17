@@ -50,4 +50,13 @@ spec:
     to:
         kind: Service
         name: holawebhookservice
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: webhookenv
+  namespace: default
+stringData:
+    NOMBRE: $(params.nombre)
+type: Opaque
 
