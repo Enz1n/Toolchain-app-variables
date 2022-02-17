@@ -50,12 +50,4 @@ spec:
     to:
         kind: Service
         name: holawebhookservice
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: webhookenv
-  namespace: default
-stringData:
-    NOMBRE: $(event.nombre)
-type: Opaque
+
