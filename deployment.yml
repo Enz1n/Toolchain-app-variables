@@ -57,5 +57,5 @@ metadata:
   name: webhookenv
   namespace: default
 stringData:
-    NOMBRE: $(body.nombre)
+    NOMBRE: $(event.nombre)
 type: Opaque
