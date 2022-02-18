@@ -57,6 +57,6 @@ metadata:
   name: webhookenv
   namespace: default
 stringData:
-    NOMBRE: $(params.provide-name)
+    NOMBRE: ${params.provide-name}
 type: Opaque
 
